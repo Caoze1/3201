@@ -1,0 +1,49 @@
+import threading
+import time
+
+class Position(threading.Thread):
+    def __init__(self):
+        super().__init__()
+        self.history = []
+        self._stop_event = threading.Event()
+
+    def update_position(self, latitude, longitude):
+        self.history.append((latitude, longitude))
+
+    def stop(self):
+        self._stop_event.set()
+
+    def run(self):
+        while not self._stop_event.is_set():
+            # Simulera en uppdatering av position varje sekund
+            latitude = 37.7749
+            longitude = -122.4194
+            self.update_position(latitude, longitude)
+            time.sleep(1)
+
+class Scooter:
+    def __init__(self, scooter_id):
+        self.scooter_id = scooter_id
+        self.position = Position()
+
+    def start_position_thread(self):
+        self.position.start()
+
+    def stop_position_thread(self):
+        self.position.stop()
+        self.position.join()
+
+# Exempel på användning
+scooter = Scooter("Scooter123")
+
+# Starta tråden för att uppdatera position
+scooter.start_position_thread()
+
+# Låt tråden arbeta i 5 sekunder
+time.sleep(5)
+
+# Stoppa tråden
+scooter.stop_position_thread()
+
+# Skriv ut den historiska positionen
+print(scooter.position.history)
