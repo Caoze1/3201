@@ -1,0 +1,50 @@
+class Vehicle:
+    def __init__(self, brand, model, year, mileage):
+        self.brand = brand
+        self.model = model
+        self.year = year
+        self.mileage = mileage
+
+    def needs_service(self):
+        # En tom implementering som kan överskuggas i subklasserna.
+        pass
+
+class Scooter(Vehicle):
+    def __init__(self, brand, model, year, mileage, fuel_type):
+        super().__init__(brand, model, year, mileage)
+        self.fuel_type = fuel_type
+
+    def needs_service(self):
+        # Implementera logik för att avgöra om scootern behöver service.
+        # Till exempel, kolla om det är dags för oljebyte eller om bromsarna behöver ses över.
+        pass
+
+class Bicycle(Vehicle):
+    def __init__(self, brand, model, year, mileage, frame_type):
+        super().__init__(brand, model, year, mileage)
+        self.frame_type = frame_type
+
+    def needs_service(self):
+        # Implementera logik för att avgöra om cykeln behöver service.
+        # Till exempel, kolla om kedjan behöver smörjning eller däcken är slitna.
+        pass
+
+class Tricycle(Vehicle):
+    def __init__(self, brand, model, year, mileage, cargo_capacity):
+        super().__init__(brand, model, year, mileage)
+        self.cargo_capacity = cargo_capacity
+
+    def needs_service(self):
+        # Implementera logik för att avgöra om trehjulingen behöver service.
+        # Till exempel, kolla om det finns problem med styret eller om bromsarna fungerar korrekt.
+        pass
+
+# Exempel på att skapa instanser av subklasserna
+scooter = Scooter("Honda", "Activa", 2020, 5000, "Bensin")
+bicycle = Bicycle("Trek", "FX", 2021, 1000, "Stål")
+tricycle = Tricycle("Schwinn", "Meridian", 2019, 3000, "50 kg")
+
+# Exempel på att använda behovet av service-metoden för varje fordon
+print(f"Scooter behöver service: {scooter.needs_service()}")
+print(f"Bicycle behöver service: {bicycle.needs_service()}")
+print(f"Tricycle behöver service: {tricycle.needs_service()}")
