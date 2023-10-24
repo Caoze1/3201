@@ -1,0 +1,67 @@
+import json
+
+class Position:
+    def __init__(self):
+        self.history = []
+
+    def update_position(self, latitude, longitude):
+        self.history.append((latitude, longitude))
+
+    def to_json(self):
+        return json.dumps({'history': self.history})
+
+class Scooter:
+    def __init__(self, scooter_id):
+        self.scooter_id = scooter_id
+        self.position = Position()
+
+    def update_position(self, latitude, longitude):
+        self.position.update_position(latitude, longitude)
+
+    def save_to_json_file(self):
+        data = {'scooter_id': self.scooter_id, 'position_history': self.position.to_json()}
+        with open(f'{self.scooter_id}.json', 'w') as file:
+            json.dump(data, file)
+
+# Exempel på användning
+scooter = Scooter("Scooter123")
+scooter.update_position(37.7749, -122.4194)  # Uppdatera position
+scooter.update_position(37.775, -122.42)  # Uppdatera position igen
+scooter.save_to_json_file()  # Spara historisk data som JSON-fil
+
+
+
+
+import openpyxl
+
+class Position:
+    def __init__(self):
+        self.history = []
+
+    def update_position(self, latitude, longitude):
+        self.history.append((latitude, longitude))
+
+    def to_excel(self, workbook, sheet_name):
+        sheet = workbook.create_sheet(title=sheet_name)
+        for i, (latitude, longitude) in enumerate(self.history):
+            sheet.cell(row=i + 1, column=1, value=latitude)
+            sheet.cell(row=i + 1, column=2, value=longitude)
+
+class Scooter:
+    def __init__(self, scooter_id):
+        self.scooter_id = scooter_id
+        self.position = Position()
+
+    def update_position(self, latitude, longitude):
+        self.position.update_position(latitude, longitude)
+
+    def save_to_excel_file(self):
+        workbook = openpyxl.Workbook()
+        self.position.to_excel(workbook, self.scooter_id)
+        workbook.save(f'{self.scooter_id}.xlsx')
+
+# Exempel på användning
+scooter = Scooter("Scooter123")
+scooter.update_position(37.7749, -122.4194)  # Uppdatera position
+scooter.update_position(37.775, -122.42)  # Uppdatera position igen
+scooter.save_to_excel_file()  # Spara historisk data som Excel-fil
